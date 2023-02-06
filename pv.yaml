@@ -45,34 +45,3 @@ spec:
   hostPath:
     path: "/root/mongo"
 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-pv3
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/root/mongo"
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-pv4
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/root/mongo"

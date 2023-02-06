@@ -17,6 +17,39 @@ spec:
       containers:
       - name: mongo
         image: mongo:3.6
+        startupProbe:
+          exec:
+            command:
+              - mongo
+              - --eval
+              - "db.adminCommand('ping')"
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 2
+        livenessProbe:
+          exec:
+            command:
+              - mongo
+              - --eval
+              - "db.adminCommand('ping')"
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 2
+        readinessProbe:
+          exec:
+            command:
+              - mongo
+              - --eval
+              - "db.adminCommand('ping')"
+          initialDelaySeconds: 1
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 2        
         env:
         - name: MONGODB_DATABASE
           valueFrom:
