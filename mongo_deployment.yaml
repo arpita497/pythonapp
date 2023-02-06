@@ -1,19 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: test-db
+  name: mongo-headless
+  labels:
+    run: mongo-sts-demo
 spec:
+  ports:
+  - port: 27017
+    name: db
+  clusterIP: None
+  selector:
+    run: mongo-sts-demo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo-sts
+spec:
+  serviceName: "mongo-headless"
+  replicas: 2
+  #podManagementPolicy: Parallel
   selector:
     matchLabels:
-      appdb: testdb
-  replicas: 1
+      run: mongo-sts-demo
   template:
     metadata:
       labels:
-        appdb: testdb
+        run: mongo-sts-demo
     spec:
       containers:
-      - name: test-db
+      - name: mongo
         image: mongo:3.6
         env:
         - name: MONGODB_DATABASE
@@ -21,14 +37,16 @@ spec:
             secretKeyRef:
               name: mongodb-secret
               key: mongodb-db-name
-        ports:
-        - containerPort: 27017
         volumeMounts:
-        - name: mongo-persistent-storage
+        - name: pv-volume
           mountPath: /data/db
-      volumes:
-        - name: mongo-persistent-storage
-          persistentVolumeClaim:
-            claimName: pvc-hostpath
-
-
+  volumeClaimTemplates:
+  - metadata:
+      name: pv-volume
+    spec:
+      storageClassName: manual
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
