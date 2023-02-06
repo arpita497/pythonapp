@@ -4,7 +4,7 @@ metadata:
   name: mongo-sts
 spec:
   serviceName: "mongo-headless"
-  replicas: 2
+  replicas: 1
   #podManagementPolicy: Parallel
   selector:
     matchLabels:
@@ -63,9 +63,9 @@ spec:
   - metadata:
       name: pv-volume
     spec:
-      storageClassName: manual
+      storageClassName: managed-nfs-storage
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
       resources:
         requests:
           storage: 100Mi

@@ -1,47 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-pv0
+  name: pv-nfs-pv1
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: managed-nfs-storage
   capacity:
-    storage: 100Mi
+    storage: 1Gi
   accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/root/mongo"
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-pv1
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/root/mongo"
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-pv2
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/root/mongo"
-
+    - ReadWriteMany
+  nfs:
+    server: 35.78.197.215
+    path: "/mnt/nfs_share/"
