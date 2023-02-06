@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: mongo
   serviceName: "mongo"
-  replicas: 4
+  replicas: 2
   template:
     metadata:
       labels:
@@ -22,6 +22,12 @@ spec:
         - "--bind_ip_all"
         - "--replSet"
         - rs0
+        env:
+        - name: MONGODB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-db-name
         ports:
         - containerPort: 27017
         volumeMounts:
