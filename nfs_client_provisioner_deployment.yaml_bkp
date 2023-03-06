@@ -25,11 +25,11 @@ spec:
             - name: PROVISIONER_NAME
               value: example.com/nfs
             - name: NFS_SERVER
-              value: 35.78.197.215
+              value: 13.232.91.114
             - name: NFS_PATH
               value: /mnt/nfs_share/
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 35.78.197.215
+            server: 13.232.91.114
             path: /mnt/nfs_share/
